@@ -51,21 +51,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
       badge: '3', // Pending approvals count
     },
     {
-      name: 'Team',
-      href: '/team',
+      name: 'Profile',
+      href: '/profile',
       icon: Users,
-      current: false,
-    },
-    {
-      name: 'Analytics',
-      href: '/analytics',
-      icon: BarChart3,
-      current: false,
-    },
-    {
-      name: 'Reports',
-      href: '/reports',
-      icon: FileText,
       current: false,
     },
     {

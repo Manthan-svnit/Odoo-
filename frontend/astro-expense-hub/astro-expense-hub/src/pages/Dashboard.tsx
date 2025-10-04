@@ -83,15 +83,36 @@ const Dashboard = () => {
               </p>
             </div>
             <div className="flex gap-3">
-              <Button variant="outline" className="glass-hover">
+              <Button 
+                variant="outline" 
+                className="glass-hover"
+                onClick={() => navigate('/expenses')}
+              >
                 <Filter className="h-4 w-4 mr-2" />
-                Filter
+                View Expenses
               </Button>
-              <Button variant="outline" className="glass-hover">
+              <Button 
+                variant="outline" 
+                className="glass-hover"
+                onClick={() => {
+                  // Export functionality
+                  const data = dashboardStats;
+                  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = 'expense-data.json';
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Export
               </Button>
-              <Button className="gradient-primary hover:opacity-90 glow-primary">
+              <Button 
+                className="gradient-primary hover:opacity-90 glow-primary"
+                onClick={() => navigate('/expenses/new')}
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Add Expense
               </Button>
@@ -204,22 +225,30 @@ const Dashboard = () => {
           {/* Quick Actions */}
           <Card className="glass p-6 rounded-2xl">
             <h3 className="text-lg font-semibold mb-6">Quick Actions</h3>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Button variant="outline" className="h-20 flex-col gap-2 glass-hover">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Button 
+                variant="outline" 
+                className="h-20 flex-col gap-2 glass-hover"
+                onClick={() => navigate('/expenses/new')}
+              >
                 <Plus className="h-6 w-6" />
                 <span>Add Expense</span>
               </Button>
-              <Button variant="outline" className="h-20 flex-col gap-2 glass-hover">
+              <Button 
+                variant="outline" 
+                className="h-20 flex-col gap-2 glass-hover"
+                onClick={() => navigate('/expenses/new')}
+              >
                 <Receipt className="h-6 w-6" />
                 <span>Upload Receipt</span>
               </Button>
-              <Button variant="outline" className="h-20 flex-col gap-2 glass-hover">
+              <Button 
+                variant="outline" 
+                className="h-20 flex-col gap-2 glass-hover"
+                onClick={() => navigate('/profile')}
+              >
                 <Calendar className="h-6 w-6" />
-                <span>View Calendar</span>
-              </Button>
-              <Button variant="outline" className="h-20 flex-col gap-2 glass-hover">
-                <TrendingUp className="h-6 w-6" />
-                <span>Analytics</span>
+                <span>View Profile</span>
               </Button>
             </div>
           </Card>
