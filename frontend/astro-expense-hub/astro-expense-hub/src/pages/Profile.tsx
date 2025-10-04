@@ -21,6 +21,7 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import AdminDetails from '@/components/AdminDetails';
 
 const Profile = () => {
   const { user, company } = useAuth();
@@ -340,6 +341,9 @@ const Profile = () => {
               )}
             </div>
           </div>
+
+          {/* Admin Details */}
+          <AdminDetails />
         </main>
       </div>
     </div>

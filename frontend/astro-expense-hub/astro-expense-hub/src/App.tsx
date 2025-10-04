@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Expenses from "./pages/Expenses";
 import AddExpense from "./pages/AddExpense";
 import Settings from "./pages/Settings";
+import Approvals from "./pages/Approvals";
 import TestConnection from "./pages/TestConnection";
 import NotFound from "./pages/NotFound";
 
@@ -27,11 +28,12 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/expenses" element={<Expenses />} />
-            <Route path="/expenses/new" element={<AddExpense />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/test" element={<TestConnection />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/expenses" element={<Expenses />} />
+                <Route path="/expenses/new" element={<AddExpense />} />
+                <Route path="/approvals" element={<Approvals />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/test" element={<TestConnection />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

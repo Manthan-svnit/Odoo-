@@ -20,6 +20,7 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import AdminDetails from '@/components/AdminDetails';
 import { useNavigate } from 'react-router-dom';
 
 interface Expense {
@@ -371,6 +372,9 @@ const Expenses = () => {
               </div>
             </div>
           </Card>
+
+          {/* Admin Details */}
+          <AdminDetails />
         </main>
       </div>
     </div>

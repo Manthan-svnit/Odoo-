@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import AdminDetails from '@/components/AdminDetails';
 import ExpenseForm from '@/components/ExpenseForm';
 
 const AddExpense = () => {
@@ -47,6 +48,9 @@ const AddExpense = () => {
 
           {/* Expense Form */}
           <ExpenseForm onSubmit={handleSubmit} />
+
+          {/* Admin Details */}
+          <AdminDetails />
         </main>
       </div>
     </div>

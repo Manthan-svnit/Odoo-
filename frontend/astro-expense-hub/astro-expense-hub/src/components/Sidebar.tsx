@@ -48,7 +48,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
       href: '/approvals',
       icon: CheckCircle,
       current: false,
-      badge: '3', // Pending approvals count
+      badge: '4', // Pending approvals count
     },
     {
       name: 'Profile',

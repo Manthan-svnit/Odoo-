@@ -17,6 +17,7 @@ import {
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import { DashboardMetrics } from '@/components/MetricCard';
+import AdminDetails from '@/components/AdminDetails';
 
 const Dashboard = () => {
   const { user, company, loading } = useAuth();
@@ -222,37 +223,40 @@ const Dashboard = () => {
             </Card>
           </div>
 
-          {/* Quick Actions */}
-          <Card className="glass p-6 rounded-2xl">
-            <h3 className="text-lg font-semibold mb-6">Quick Actions</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button 
-                variant="outline" 
-                className="h-20 flex-col gap-2 glass-hover"
-                onClick={() => navigate('/expenses/new')}
-              >
-                <Plus className="h-6 w-6" />
-                <span>Add Expense</span>
-              </Button>
-              <Button 
-                variant="outline" 
-                className="h-20 flex-col gap-2 glass-hover"
-                onClick={() => navigate('/expenses/new')}
-              >
-                <Receipt className="h-6 w-6" />
-                <span>Upload Receipt</span>
-              </Button>
-              <Button 
-                variant="outline" 
-                className="h-20 flex-col gap-2 glass-hover"
-                onClick={() => navigate('/profile')}
-              >
-                <Calendar className="h-6 w-6" />
-                <span>View Profile</span>
-              </Button>
-            </div>
-          </Card>
-        </main>
+              {/* Quick Actions */}
+              <Card className="glass p-6 rounded-2xl">
+                <h3 className="text-lg font-semibold mb-6">Quick Actions</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Button
+                    variant="outline"
+                    className="h-20 flex-col gap-2 glass-hover"
+                    onClick={() => navigate('/expenses/new')}
+                  >
+                    <Plus className="h-6 w-6" />
+                    <span>Add Expense</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-20 flex-col gap-2 glass-hover"
+                    onClick={() => navigate('/expenses/new')}
+                  >
+                    <Receipt className="h-6 w-6" />
+                    <span>Upload Receipt</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-20 flex-col gap-2 glass-hover"
+                    onClick={() => navigate('/profile')}
+                  >
+                    <Calendar className="h-6 w-6" />
+                    <span>View Profile</span>
+                  </Button>
+                </div>
+              </Card>
+
+              {/* Admin Details */}
+              <AdminDetails />
+            </main>
       </div>
     </div>
   );
