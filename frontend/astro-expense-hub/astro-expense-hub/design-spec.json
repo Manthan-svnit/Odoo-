@@ -1,0 +1,226 @@
+{
+  "designSystem": {
+    "name": "ExpenseFlow Design System",
+    "version": "1.0.0",
+    "description": "Next-gen expense management UI design system"
+  },
+  "colors": {
+    "primary": {
+      "cyan": "#00FFFF",
+      "purple": "#9B6BFF",
+      "gradient": "linear-gradient(135deg, #00FFFF 0%, #9B6BFF 100%)"
+    },
+    "background": {
+      "deepNavy": "#071028",
+      "darkerNavy": "#0b1220",
+      "gradient": "linear-gradient(180deg, #071028 0%, #0b1220 100%)"
+    },
+    "text": {
+      "headings": "#E6F3FF",
+      "body": "#B9C7D9",
+      "muted": "#8092A8",
+      "placeholder": "#7D96B0"
+    },
+    "status": {
+      "approved": "#2EE6A5",
+      "rejected": "#FF6B6B",
+      "pending": "#FFC857"
+    },
+    "glass": {
+      "card": "rgba(12, 20, 40, 0.6)",
+      "border": "rgba(0, 255, 255, 0.1)",
+      "blur": "20px"
+    },
+    "shadows": {
+      "elevated": "0 10px 40px rgba(7, 16, 40, 0.5)",
+      "soft": "0 4px 20px rgba(7, 16, 40, 0.3)",
+      "glowPrimary": "0 0 20px rgba(0, 255, 255, 0.3)",
+      "glowSecondary": "0 0 20px rgba(155, 107, 255, 0.3)"
+    }
+  },
+  "typography": {
+    "fontFamily": {
+      "primary": "Inter",
+      "secondary": "Poppins",
+      "fallback": "system-ui, -apple-system, sans-serif"
+    },
+    "scale": {
+      "h1": {
+        "size": "28-34px",
+        "weight": "bold",
+        "lineHeight": "tight"
+      },
+      "h2": {
+        "size": "20-24px",
+        "weight": "semibold",
+        "lineHeight": "tight"
+      },
+      "h3": {
+        "size": "18px",
+        "weight": "semibold"
+      },
+      "body": {
+        "size": "14-16px",
+        "weight": "regular",
+        "lineHeight": "relaxed"
+      },
+      "small": {
+        "size": "12-14px",
+        "weight": "regular"
+      }
+    }
+  },
+  "spacing": {
+    "grid": "8px",
+    "components": {
+      "padding": "24px",
+      "margin": "16px",
+      "gap": "16px"
+    },
+    "forms": {
+      "inputHeight": "44px",
+      "buttonHeight": "44px",
+      "borderRadius": "12px"
+    }
+  },
+  "components": {
+    "ExpenseFlowLogo": {
+      "description": "Circular logo with E and clockwise arrow",
+      "sizes": ["sm", "md", "lg"],
+      "gradient": "primary",
+      "reactComponent": "ExpenseFlowLogo",
+      "tailwindClasses": "gradient-primary glow-primary rounded-full"
+    },
+    "Sidebar": {
+      "description": "Left navigation sidebar with icons and labels",
+      "width": "256px",
+      "reactComponent": "Sidebar",
+      "tailwindClasses": "bg-sidebar-background border-r border-sidebar-border"
+    },
+    "Header": {
+      "description": "Top header with search, notifications, and user menu",
+      "height": "64px",
+      "reactComponent": "Header",
+      "tailwindClasses": "bg-card/50 backdrop-blur-sm border-b border-border"
+    },
+    "MetricCards": {
+      "description": "Dashboard metric cards with icons and trends",
+      "grid": "3 columns",
+      "reactComponent": "DashboardMetrics",
+      "tailwindClasses": "glass p-6 rounded-2xl glass-hover"
+    },
+    "ExpenseForm": {
+      "description": "OCR-enabled expense submission form",
+      "sections": ["receipt-upload", "ocr-preview", "expense-details"],
+      "reactComponent": "ExpenseForm",
+      "tailwindClasses": "glass p-6 rounded-2xl"
+    },
+    "ApprovalFlow": {
+      "description": "Multi-level approval workflow visualization",
+      "features": ["step-indicators", "role-badges", "status-colors"],
+      "reactComponent": "ApprovalFlow",
+      "tailwindClasses": "glass p-6 rounded-2xl"
+    },
+    "ApprovalModal": {
+      "description": "Center-screen modal for expense approvals",
+      "features": ["animated-stepper", "comments", "approve/reject"],
+      "reactComponent": "ApprovalModal",
+      "tailwindClasses": "fixed inset-0 bg-black/50 backdrop-blur-sm"
+    }
+  },
+  "interactions": {
+    "buttons": {
+      "primary": {
+        "text": "Add Expense",
+        "classes": "gradient-primary hover:opacity-90 glow-primary",
+        "height": "44px",
+        "borderRadius": "12px"
+      },
+      "approve": {
+        "text": "Approve & Continue",
+        "classes": "gradient-primary hover:opacity-90 glow-primary"
+      },
+      "reject": {
+        "text": "Reject",
+        "classes": "bg-destructive hover:bg-destructive/90"
+      },
+      "secondary": {
+        "classes": "glass-hover border-primary/30 text-primary hover:bg-primary/10"
+      }
+    },
+    "inputs": {
+      "height": "44px",
+      "borderRadius": "12px",
+      "placeholderColor": "#7D96B0",
+      "focusRing": "focus:ring-2 focus:ring-primary focus:ring-offset-2"
+    },
+    "badges": {
+      "approved": "status-approved",
+      "pending": "status-pending", 
+      "rejected": "status-rejected"
+    }
+  },
+  "accessibility": {
+    "colorContrast": ">= 4.5:1 for body text",
+    "focusStates": "Visible focus rings on all interactive elements",
+    "keyboardNavigation": "Tab navigation support",
+    "screenReader": "Proper ARIA labels and semantic HTML"
+  },
+  "microcopy": {
+    "helperText": "Amount may be in other currency; shown in company default.",
+    "keyboardHint": "Use Tab to navigate form fields",
+    "toastMessages": {
+      "success": "Expense submitted",
+      "error": "Failed to submit expense",
+      "approval": "Expense approved"
+    }
+  },
+  "apiEndpoints": {
+    "countries": "GET /countries",
+    "exchangeRates": "GET /rates?base={BASE_CURRENCY}",
+    "expenses": {
+      "create": "POST /expenses",
+      "list": "GET /expenses",
+      "pending": "GET /expenses?role=pending",
+      "approve": "POST /expenses/{id}/approve",
+      "reject": "POST /expenses/{id}/reject"
+    },
+    "users": {
+      "profile": "GET /users/me",
+      "update": "PUT /users/me"
+    },
+    "analytics": {
+      "dashboard": "GET /analytics/dashboard",
+      "categories": "GET /analytics/categories",
+      "trends": "GET /analytics/trends"
+    }
+  },
+  "assets": {
+    "logo": {
+      "formats": ["PNG", "SVG"],
+      "sizes": ["32x32", "64x64", "128x128"],
+      "description": "ExpenseFlow logo with E and arrow"
+    },
+    "favicon": {
+      "sizes": ["16x16", "32x32"],
+      "formats": ["ICO", "PNG"]
+    },
+    "icons": {
+      "style": "Lucide-style line icons",
+      "sizes": ["16x16", "20x20", "24x24"],
+      "colors": ["primary", "secondary", "muted"]
+    }
+  },
+  "responsive": {
+    "breakpoints": {
+      "mobile": "640px",
+      "tablet": "768px", 
+      "desktop": "1024px",
+      "wide": "1280px"
+    },
+    "layouts": {
+      "mobile": "Single column, stacked components",
+      "desktop": "Sidebar + main content, 2-column forms"
+    }
+  }
+}

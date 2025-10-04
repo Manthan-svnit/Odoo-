@@ -8,52 +8,66 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Futuristic dark theme - deep navy with neon accents */
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    /* ExpenseFlow Design System - Deep Navy with Neon Accents */
+    --background: 220 100% 8%; /* #071028 */
+    --background-gradient: linear-gradient(180deg, #071028 0%, #0b1220 100%);
+    --foreground: 210 100% 95%; /* #E6F3FF */
 
-    --card: 222 40% 14%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 40% 12%; /* Translucent navy */
+    --card-foreground: 210 100% 95%;
+    --card-glass: rgba(12, 20, 40, 0.6);
+    --card-border: rgba(0, 255, 255, 0.1);
 
-    --popover: 222 40% 14%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 40% 12%;
+    --popover-foreground: 210 100% 95%;
 
-    --primary: 189 97% 55%; /* Neon cyan */
-    --primary-foreground: 222 47% 11%;
+    --primary: 180 100% 50%; /* #00FFFF */
+    --primary-foreground: 220 100% 8%;
+    --primary-gradient: linear-gradient(135deg, #00FFFF 0%, #9B6BFF 100%);
 
-    --secondary: 271 91% 65%; /* Electric purple */
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 260 100% 70%; /* #9B6BFF */
+    --secondary-foreground: 210 100% 95%;
 
-    --muted: 222 40% 20%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 220 20% 25%;
+    --muted-foreground: 220 20% 50%; /* #8092A8 */
 
-    --accent: 189 97% 55%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 220 100% 8%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 60%; /* #FF6B6B */
+    --destructive-foreground: 210 100% 95%;
 
-    --border: 222 40% 25%;
-    --input: 222 40% 18%;
-    --ring: 189 97% 55%;
+    --success: 160 70% 50%; /* #2EE6A5 */
+    --success-foreground: 220 100% 8%;
 
-    --radius: 1rem;
+    --warning: 45 100% 60%; /* #FFC857 */
+    --warning-foreground: 220 100% 8%;
 
-    --sidebar-background: 222 47% 8%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 189 97% 55%;
-    --sidebar-primary-foreground: 222 47% 11%;
-    --sidebar-accent: 222 40% 18%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 222 40% 25%;
-    --sidebar-ring: 189 97% 55%;
+    --border: 220 20% 20%;
+    --input: 220 20% 15%;
+    --input-placeholder: 220 20% 45%; /* #7D96B0 */
+    --ring: 180 100% 50%;
+
+    --radius: 0.75rem; /* 12px */
+    --radius-lg: 1rem; /* 16px */
+    --radius-xl: 1.5rem; /* 24px */
+
+    --sidebar-background: 220 100% 6%;
+    --sidebar-foreground: 210 100% 95%;
+    --sidebar-primary: 180 100% 50%;
+    --sidebar-primary-foreground: 220 100% 8%;
+    --sidebar-accent: 220 20% 15%;
+    --sidebar-accent-foreground: 210 100% 95%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 180 100% 50%;
 
     /* Custom design tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(189 97% 55%), hsl(271 91% 65%));
-    --gradient-card: linear-gradient(135deg, hsl(222 40% 14% / 0.6), hsl(222 40% 18% / 0.4));
-    --glow-cyan: 0 0 20px hsl(189 97% 55% / 0.3);
-    --glow-purple: 0 0 20px hsl(271 91% 65% / 0.3);
-    --shadow-elevated: 0 10px 40px hsl(222 47% 11% / 0.5);
+    --gradient-primary: linear-gradient(135deg, #00FFFF 0%, #9B6BFF 100%);
+    --gradient-card: linear-gradient(135deg, rgba(12, 20, 40, 0.6) 0%, rgba(20, 30, 50, 0.4) 100%);
+    --glow-primary: 0 0 20px rgba(0, 255, 255, 0.3);
+    --glow-secondary: 0 0 20px rgba(155, 107, 255, 0.3);
+    --shadow-elevated: 0 10px 40px rgba(7, 16, 40, 0.5);
+    --shadow-soft: 0 4px 20px rgba(7, 16, 40, 0.3);
   }
 
   .dark {
@@ -103,28 +117,91 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+    background: var(--background-gradient);
+    min-height: 100vh;
+  }
+
+  /* Typography Scale */
+  h1 {
+    @apply text-3xl font-bold leading-tight;
+    color: var(--foreground);
+  }
+
+  h2 {
+    @apply text-xl font-semibold leading-tight;
+    color: var(--foreground);
+  }
+
+  h3 {
+    @apply text-lg font-semibold;
+    color: var(--foreground);
+  }
+
+  p {
+    @apply text-base leading-relaxed;
+    color: hsl(var(--muted-foreground));
   }
 
   /* Glassmorphism utilities */
   .glass {
-    @apply bg-card/40 backdrop-blur-xl border border-border/50;
+    background: var(--card-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-soft);
   }
 
   .glass-hover {
-    @apply transition-all duration-300 hover:bg-card/60 hover:shadow-[var(--glow-cyan)];
+    @apply transition-all duration-300;
+  }
+
+  .glass-hover:hover {
+    background: rgba(12, 20, 40, 0.8);
+    box-shadow: var(--glow-primary);
   }
 
   /* Glow effects */
-  .glow-cyan {
-    box-shadow: var(--glow-cyan);
+  .glow-primary {
+    box-shadow: var(--glow-primary);
   }
 
-  .glow-purple {
-    box-shadow: var(--glow-purple);
+  .glow-secondary {
+    box-shadow: var(--glow-secondary);
+  }
+
+  /* Gradient backgrounds */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  /* Status colors */
+  .status-approved {
+    @apply bg-green-500/20 text-green-400 border-green-500/30;
+  }
+
+  .status-rejected {
+    @apply bg-red-500/20 text-red-400 border-red-500/30;
+  }
+
+  .status-pending {
+    @apply bg-yellow-500/20 text-yellow-400 border-yellow-500/30;
   }
 
   /* Smooth transitions */
   .transition-smooth {
     @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Input styles */
+  input::placeholder {
+    color: var(--input-placeholder);
+  }
+
+  /* Focus states */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
   }
 }

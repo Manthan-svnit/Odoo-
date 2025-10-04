@@ -2,28 +2,30 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card } from '@/components/ui/card';
-import { DollarSign, Clock, CheckCircle, XCircle, TrendingUp, Users } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { 
+  Plus, 
+  Receipt, 
+  TrendingUp, 
+  PieChart,
+  BarChart3,
+  Calendar,
+  Filter,
+  Download
+} from 'lucide-react';
+import Sidebar from '@/components/Sidebar';
+import Header from '@/components/Header';
+import { DashboardMetrics } from '@/components/MetricCard';
 
-interface DashboardStats {
-  totalExpenses: number;
-  pendingApprovals: number;
-  approvedClaims: number;
-  rejectedClaims: number;
-}
-
-export default function Dashboard() {
+const Dashboard = () => {
   const { user, company, loading } = useAuth();
   const navigate = useNavigate();
-  const [stats, setStats] = useState<DashboardStats>({
+  const [dashboardStats, setDashboardStats] = useState({
     totalExpenses: 0,
     pendingApprovals: 0,
-    approvedClaims: 0,
-    rejectedClaims: 0,
+    approvedExpenses: 0,
   });
-  const [categoryData, setCategoryData] = useState<any[]>([]);
-  const [loadingStats, setLoadingStats] = useState(true);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -32,185 +34,199 @@ export default function Dashboard() {
   }, [user, loading, navigate]);
 
   useEffect(() => {
-    if (user) {
-      loadDashboardStats();
-    }
+    // Load dashboard stats from API
+    loadDashboardStats();
   }, [user]);
 
   const loadDashboardStats = async () => {
-    try {
-      setLoadingStats(true);
-      // TODO: Implement expense fetching from backend API
-      // For now, show placeholder data
-      setStats({
-        totalExpenses: 0,
-        pendingApprovals: 0,
-        approvedClaims: 0,
-        rejectedClaims: 0,
-      });
-      setCategoryData([]);
-    } catch (error) {
-      console.error('Error loading stats:', error);
-    } finally {
-      setLoadingStats(false);
-    }
+    // TODO: Replace with actual API calls
+    setDashboardStats({
+      totalExpenses: 12450,
+      pendingApprovals: 8,
+      approvedExpenses: 47,
+    });
   };
 
-  if (loading || loadingStats) {
+  if (loading) {
     return (
-      <div className="min-h-screen bg-background p-8">
-        <div className="max-w-7xl mx-auto space-y-8">
-          <Skeleton className="h-12 w-64" />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {[1, 2, 3, 4].map(i => (
-              <Skeleton key={i} className="h-32" />
-            ))}
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
-  const COLORS = ['hsl(189 97% 55%)', 'hsl(271 91% 65%)', 'hsl(120 70% 50%)', 'hsl(40 90% 55%)'];
-
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen flex">
+      {/* Sidebar */}
+      <div className="w-64 flex-shrink-0">
+        <Sidebar />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Dashboard
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Welcome back! Here's your expense overview
-            </p>
+        <Header />
+
+        {/* Dashboard Content */}
+        <main className="flex-1 p-6 space-y-8">
+          {/* Welcome Section */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">
+                Welcome back, {user?.name || 'User'}!
+              </h1>
+              <p className="text-muted-foreground mt-1">
+                Here's what's happening with your expenses at {company?.name || 'your company'}.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Button variant="outline" className="glass-hover">
+                <Filter className="h-4 w-4 mr-2" />
+                Filter
+              </Button>
+              <Button variant="outline" className="glass-hover">
+                <Download className="h-4 w-4 mr-2" />
+                Export
+              </Button>
+              <Button className="gradient-primary hover:opacity-90 glow-primary">
+                <Plus className="h-4 w-4 mr-2" />
+                Add Expense
+              </Button>
+            </div>
           </div>
-          {user?.role === 'Admin' && (
-            <div className="flex items-center gap-2 glass px-4 py-2 rounded-lg">
-              <Users className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium">Admin Access</span>
+
+          {/* Metrics */}
+          <DashboardMetrics />
+
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Category Breakdown */}
+            <Card className="glass p-6 rounded-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold">Expense Categories</h3>
+                <Button variant="ghost" size="sm">
+                  <PieChart className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { name: 'Travel', amount: '$4,200', percentage: 34, color: 'bg-primary' },
+                  { name: 'Meals', amount: '$2,800', percentage: 22, color: 'bg-secondary' },
+                  { name: 'Office Supplies', amount: '$1,900', percentage: 15, color: 'bg-success' },
+                  { name: 'Software', amount: '$1,500', percentage: 12, color: 'bg-warning' },
+                  { name: 'Other', amount: '$2,050', percentage: 17, color: 'bg-muted' },
+                ].map((category, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`h-3 w-3 rounded-full ${category.color}`} />
+                      <span className="text-sm font-medium">{category.name}</span>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold">{category.amount}</p>
+                      <p className="text-xs text-muted-foreground">{category.percentage}%</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            {/* Recent Activity */}
+            <Card className="glass p-6 rounded-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold">Recent Activity</h3>
+                <Button variant="ghost" size="sm">
+                  <BarChart3 className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { 
+                    type: 'expense', 
+                    description: 'Lunch with client', 
+                    amount: '$45.50', 
+                    status: 'approved',
+                    time: '2 hours ago'
+                  },
+                  { 
+                    type: 'expense', 
+                    description: 'Taxi to airport', 
+                    amount: '$28.00', 
+                    status: 'pending',
+                    time: '4 hours ago'
+                  },
+                  { 
+                    type: 'expense', 
+                    description: 'Office supplies', 
+                    amount: '$125.00', 
+                    status: 'approved',
+                    time: '1 day ago'
+                  },
+                  { 
+                    type: 'expense', 
+                    description: 'Team dinner', 
+                    amount: '$180.00', 
+                    status: 'rejected',
+                    time: '2 days ago'
+                  },
+                ].map((activity, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 rounded-xl glass-hover">
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-lg gradient-primary flex items-center justify-center">
+                        <Receipt className="h-4 w-4 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium">{activity.description}</p>
+                        <p className="text-xs text-muted-foreground">{activity.time}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold">{activity.amount}</p>
+                      <Badge 
+                        variant="outline" 
+                        className={`text-xs ${
+                          activity.status === 'approved' ? 'status-approved' :
+                          activity.status === 'pending' ? 'status-pending' :
+                          'status-rejected'
+                        }`}
+                      >
+                        {activity.status}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+
+          {/* Quick Actions */}
+          <Card className="glass p-6 rounded-2xl">
+            <h3 className="text-lg font-semibold mb-6">Quick Actions</h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Button variant="outline" className="h-20 flex-col gap-2 glass-hover">
+                <Plus className="h-6 w-6" />
+                <span>Add Expense</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col gap-2 glass-hover">
+                <Receipt className="h-6 w-6" />
+                <span>Upload Receipt</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col gap-2 glass-hover">
+                <Calendar className="h-6 w-6" />
+                <span>View Calendar</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col gap-2 glass-hover">
+                <TrendingUp className="h-6 w-6" />
+                <span>Analytics</span>
+              </Button>
             </div>
-          )}
-        </div>
-
-        {/* Stats Cards */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="glass p-6 glass-hover transition-smooth">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Total Expenses</p>
-                <h3 className="text-2xl font-bold mt-1">${stats.totalExpenses.toFixed(2)}</h3>
-              </div>
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center glow-cyan">
-                <DollarSign className="h-6 w-6 text-primary" />
-              </div>
-            </div>
           </Card>
-
-          <Card className="glass p-6 glass-hover transition-smooth">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Pending Approvals</p>
-                <h3 className="text-2xl font-bold mt-1">{stats.pendingApprovals}</h3>
-              </div>
-              <div className="h-12 w-12 rounded-full bg-secondary/10 flex items-center justify-center glow-purple">
-                <Clock className="h-6 w-6 text-secondary" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="glass p-6 glass-hover transition-smooth">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Approved Claims</p>
-                <h3 className="text-2xl font-bold mt-1">{stats.approvedClaims}</h3>
-              </div>
-              <div className="h-12 w-12 rounded-full bg-green-500/10 flex items-center justify-center">
-                <CheckCircle className="h-6 w-6 text-green-500" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="glass p-6 glass-hover transition-smooth">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Rejected Claims</p>
-                <h3 className="text-2xl font-bold mt-1">{stats.rejectedClaims}</h3>
-              </div>
-              <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
-                <XCircle className="h-6 w-6 text-destructive" />
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        {/* Charts */}
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card className="glass p-6">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" />
-              Expenses by Category
-            </h3>
-            {categoryData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={categoryData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(222 40% 25%)" />
-                  <XAxis dataKey="name" stroke="hsl(215 20% 65%)" />
-                  <YAxis stroke="hsl(215 20% 65%)" />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'hsl(222 40% 14%)',
-                      border: '1px solid hsl(222 40% 25%)',
-                      borderRadius: '0.5rem',
-                    }}
-                  />
-                  <Bar dataKey="value" fill="hsl(189 97% 55%)" radius={[8, 8, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="h-[300px] flex items-center justify-center text-muted-foreground">
-                No expense data available
-              </div>
-            )}
-          </Card>
-
-          <Card className="glass p-6">
-            <h3 className="text-lg font-semibold mb-4">Category Distribution</h3>
-            {categoryData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={categoryData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={(entry) => entry.name}
-                    outerRadius={100}
-                    fill="hsl(189 97% 55%)"
-                    dataKey="value"
-                  >
-                    {categoryData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'hsl(222 40% 14%)',
-                      border: '1px solid hsl(222 40% 25%)',
-                      borderRadius: '0.5rem',
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="h-[300px] flex items-center justify-center text-muted-foreground">
-                No expense data available
-              </div>
-            )}
-          </Card>
-        </div>
+        </main>
       </div>
     </div>
   );
-}
+};
+
+export default Dashboard;
