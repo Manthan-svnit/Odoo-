@@ -8,7 +8,10 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 
@@ -19,9 +22,31 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("✅ MongoDB connected");
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-  })
-  .catch(err => console.error(err));
+
+// For development, we'll use a simple in-memory database
+// In production, you should use a real MongoDB connection
+const users = new Map();
+const companies = new Map();
+
+// Mock data for testing
+const mockCompany = {
+  _id: 'company1',
+  name: 'Demo Company',
+  country: 'United States',
+  defaultCurrency: 'USD',
+  createdBy: 'user1'
+};
+
+const mockUser = {
+  _id: 'user1',
+  name: 'Demo Admin',
+  email: 'admin@demo.com',
+  role: 'Admin',
+  company: mockCompany
+};
+
+companies.set('company1', mockCompany);
+users.set('user1', mockUser);
+
+console.log("✅ Mock database initialized");
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
