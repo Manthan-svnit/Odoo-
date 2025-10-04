@@ -2,13 +2,54 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ["Admin", "Manager", "Employee"], default: "Employee" },
-  company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
-  manager: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-}, { timestamps: true });
+  name: { 
+    type: String, 
+    required: true 
+  },
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true 
+  },
+  password: { 
+    type: String, 
+    required: true 
+  },
+  role: { 
+    type: String, 
+    enum: ["Admin", "Manager", "Employee"], 
+    default: "Employee" 
+  },
+  company: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Company" 
+  },
+  manager: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "User",
+    default: null 
+  },
+  // NEW FIELDS FOR EXPENSE MANAGEMENT:
+  isManagerApprover: {
+    type: Boolean,
+    default: false
+  },
+  department: {
+    type: String,
+    trim: true
+  },
+  employeeId: {
+    type: String,
+    unique: true,
+    sparse: true // Allows null values but ensures uniqueness for non-null values
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  }
+}, { 
+  timestamps: true 
+});
 
 // Hash password before saving
 userSchema.pre("save", async function (next) {
