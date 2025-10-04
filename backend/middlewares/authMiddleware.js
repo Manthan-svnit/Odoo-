@@ -5,7 +5,7 @@ const verifyToken = (req, res, next) => {
   if (!token) return res.status(401).json({ message: "Access denied" });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret');
     req.user = decoded; // attach user info
     next();
   } catch (error) {
